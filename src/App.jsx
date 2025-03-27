@@ -6,7 +6,7 @@ function App() {
   const [audioUrl, setAudioUrl] = useState('');
 
   const generateSpeech = () => {
-    axios.post('https://my-backend-production-72f8.up.railway.app/tts/', { text })
+    axios.post('https://my-backend-production-72f8.up.railway.app/', { text })
       .then(response => {
         const fullAudioUrl = `https://my-backend-production-72f8.up.railway.app${response.data.audio_url}`;
         setAudioUrl(fullAudioUrl);
