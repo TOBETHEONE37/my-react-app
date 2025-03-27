@@ -26,7 +26,7 @@ function App() {
         <div className="bg-gray-200 rounded-xl p-4 shadow">
           <h3 className="font-semibold mb-2">음원 제어</h3>
           <textarea
-            className="w-full rounded p-2"
+            className="w-full rounded p-2 text-white"
             rows={4}
             placeholder="방송할 내용을 입력"
             value={text}
