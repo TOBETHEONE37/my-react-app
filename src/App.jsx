@@ -5,7 +5,7 @@ function App() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    axios.get('https://my-backend.up.railway.app/') // 🚩 백엔드 URL 넣기
+    axios.get('https://my-backend-production-72f8.up.railway.app/') // 🚩 백엔드 URL 넣기
       .then(response => {
         setMessage(response.data.message);
       })
