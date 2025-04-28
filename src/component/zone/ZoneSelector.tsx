@@ -3,14 +3,24 @@ const zones: number[] = [...Array(16)].map((v, i) => i + 1);
 interface Props {
     selectedZones: number[];
     addZone: (zoneId: number) => void;
+    addAllZone: (zoneIds: number[]) => void;
 }
 
 const ZoneSelector = ({
-    selectedZones, addZone
+    selectedZones, addZone, addAllZone
    }: Props)=>  {
     return (
         <div className="p-4 bg-gray-100 rounded-lg">
-            <h2 className="text-lg font-semibold mb-4">지역 선택</h2>
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold">지역 선택</h2>
+                <button
+                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition"
+                    onClick={() => addAllZone(zones)}
+                >
+                    전체 선택
+                </button>
+            </div>
+
             <div className="grid grid-cols-4 gap-3">
                 {zones.map(zoneId => (
                     <button

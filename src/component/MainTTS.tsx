@@ -18,6 +18,14 @@ const MainTTS = () => {
         }
     };
 
+    const addAllZone = (zoneIds: number[]) => {
+        let res = [];
+        if(zoneIds.length !== selectedZones.length) {
+            res = [...zoneIds]
+        }
+        setSelectedZones(res);
+    }
+
     return (
         <div className="p-4 bg-gray-100 min-h-screen">
             <h2 className="text-xl font-bold mb-4">방송 장비 관리 시스템</h2>
@@ -37,6 +45,7 @@ const MainTTS = () => {
                 <ZoneSelector
                     selectedZones={selectedZones}
                     addZone={addZone}
+                    addAllZone={addAllZone}
                 />
             </div>
 
