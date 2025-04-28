@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const hostUrl = '/api';
+// const hostUrl = '/api';
+const hostUrl = 'https://my-backend-production-72f8.up.railway.app';
 
 const generateTtsFile = (text: string): Promise<string> => {
     return axios
