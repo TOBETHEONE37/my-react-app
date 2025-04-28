@@ -8,6 +8,13 @@ const generateTtsFile = (text: string): Promise<string> => {
         .then((response) => `${hostUrl}${response.data.audio_url}`);
 };
 
+const emergency = (): Promise<string> => {
+    return axios
+        .get(`${hostUrl}/emergency/`)
+        .then((response) => response.data.message);
+};
+
 export default {
-    generateTtsFile
+    generateTtsFile,
+    emergency
 }

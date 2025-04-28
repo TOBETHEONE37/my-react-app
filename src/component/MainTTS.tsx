@@ -1,9 +1,12 @@
 import TTSEditor from "./tts/TTSEditor";
 import ZoneSelector from "./zone/ZoneSelector";
 import {useState} from "react";
+import TTSApi from "../api/tts/TTSApi";
 
 
 const MainTTS = () => {
+    const { emergency } = TTSApi
+
     const [audioUrl, setAudioUrl] = useState('');
     const [selectedZones, setSelectedZones] = useState<number[]>([]);
 
@@ -24,6 +27,12 @@ const MainTTS = () => {
             res = [...zoneIds]
         }
         setSelectedZones(res);
+    }
+
+    const onClickEmergency = () => {
+        emergency()
+            .then((res) => alert(`Emergency ${res}`))
+            .catch(() => alert("Emergency Error"))
     }
 
     return (
@@ -50,7 +59,10 @@ const MainTTS = () => {
             </div>
 
             <div className="mt-4 flex justify-end gap-2">
-                <button className="bg-red-500 text-white py-2 px-4 rounded">소방 버튼</button>
+                <button
+                    className="bg-red-500 text-white py-2 px-4 rounded"
+                    onClick={onClickEmergency}
+                >소방 버튼</button>
                 <button className="bg-green-500 text-white py-2 px-4 rounded">시작</button>
                 <button className="bg-red-500 text-white py-2 px-4 rounded">종료</button>
             </div>
