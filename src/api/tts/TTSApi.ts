@@ -1,12 +1,22 @@
 import axios from "axios";
+import {Preset} from "./Models";
 
+// FIXME local  배포 확인
 // const hostUrl = '/api';
 const hostUrl = 'https://my-backend-production-72f8.up.railway.app';
 
-const generateTtsFile = (text: string): Promise<string> => {
+const genLocalAudioUrl = (audioUrl: string) => {
+    return `${hostUrl}${audioUrl}`
+}
+
+const generateTtsFile = (text: string): Promise<Preset> => {
     return axios
         .post(`${hostUrl}/tts/`, { text })
-        .then((response) => `${hostUrl}${response.data.audio_url}`);
+        .then((response) => {
+            const preset: Preset = response.data;
+            preset.audioUrl = genLocalAudioUrl(preset.audioUrl);
+            return preset;
+        });
 };
 
 const emergency = (): Promise<string> => {
@@ -15,7 +25,18 @@ const emergency = (): Promise<string> => {
         .then((response) => response.data.message);
 };
 
+const getPresetList = (): Promise<Preset[]> => {
+    return axios
+        .get(`${hostUrl}/preset/`)
+        .then((response) => {
+            const res: Preset[] = response.data;
+            res.forEach(preset => preset.audioUrl = genLocalAudioUrl(preset.audioUrl))
+            return res;
+        });
+};
+
 export default {
     generateTtsFile,
-    emergency
+    emergency,
+    getPresetList
 }

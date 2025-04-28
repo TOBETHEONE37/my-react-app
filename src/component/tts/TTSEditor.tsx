@@ -1,21 +1,26 @@
-import {useState} from "react";
-import axios from "axios";
+import {useEffect, useState} from "react";
 import TTSApi from "../../api/tts/TTSApi";
+import {Preset} from "../../api/tts/Models";
 
 interface Props {
-    audioUrl: string;
-    setAudioUrl: (audioUrl: string) => void;
+    preset: Preset | null;
+    generatePreset: (audioUrl: Preset) => void;
 }
 
 const TTSEditor = ({
-    audioUrl, setAudioUrl
+                       preset, generatePreset
                    }: Props) => {
     const { generateTtsFile } = TTSApi;
     const [text, setText] = useState('');
 
+    useEffect(() => {
+        if(!preset) return;
+        setText(preset.text)
+    }, [preset])
+
     const generateSpeech = () => {
         generateTtsFile(text)
-            .then(setAudioUrl)
+            .then(generatePreset)
             .catch((error) => alert('TTS 생성 중 오류가 발생했습니다.'));
     };
 
@@ -33,10 +38,10 @@ const TTSEditor = ({
                 className="mt-2 bg-blue-500 text-white py-2 px-4 rounded"
                 onClick={generateSpeech}
             >
-                TTS 방송하기
+                TTS 생성하기
             </button>
-            {audioUrl && audioUrl !== '' && (
-                <audio controls src={audioUrl} className="mt-2 w-full" />
+            {!!preset && (
+                <audio controls src={preset.audioUrl} className="mt-2 w-full" />
             )}
         </div>
     )
