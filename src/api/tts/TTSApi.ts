@@ -2,8 +2,8 @@ import axios from "axios";
 import {Preset} from "./Models";
 
 // FIXME local  배포 확인
-// const hostUrl = '/api';
-const hostUrl = 'https://my-backend-production-72f8.up.railway.app';
+const hostUrl = '/api';
+// const hostUrl = 'https://my-backend-production-72f8.up.railway.app';
 
 const genLocalAudioUrl = (audioUrl: string) => {
     return `${hostUrl}${audioUrl}`
@@ -22,6 +22,18 @@ const generateTtsFile = (text: string): Promise<Preset> => {
 const emergency = (): Promise<string> => {
     return axios
         .get(`${hostUrl}/emergency/`)
+        .then((response) => response.data.message);
+};
+
+const broadcasts = (zoneIds: number[], preset: Preset | null): Promise<string> => {
+    return axios
+        .post(`${hostUrl}/broadcasts/`, {zoneIds, preset})
+        .then((response) => response.data.message);
+};
+
+const stopBroadcasts = (zoneIds: number[]): Promise<string> => {
+    return axios
+        .post(`${hostUrl}/broadcasts/stop/`, {zoneIds})
         .then((response) => response.data.message);
 };
 
@@ -46,6 +58,8 @@ const removePreset = (id: number): Promise<Preset[]> => {
 export default {
     generateTtsFile,
     emergency,
+    broadcasts,
+    stopBroadcasts,
     getPresetList,
     removePreset
 }

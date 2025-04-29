@@ -7,7 +7,13 @@ import {Preset} from "../api/tts/Models";
 
 
 const MainTTS = () => {
-    const { emergency, getPresetList, removePreset } = TTSApi
+    const {
+        emergency,
+        broadcasts,
+        stopBroadcasts,
+        getPresetList,
+        removePreset,
+    } = TTSApi
 
     // TTS 생성 관련 작업
     const [preset, setPreset] = useState<Preset | null>(null);
@@ -56,6 +62,18 @@ const MainTTS = () => {
             .catch(() => alert("Emergency Error"))
     }
 
+    const onClickBroadcasts = () => {
+        broadcasts(selectedZones, preset)
+            .then((res) => alert(res))
+            .catch(() => alert("Broadcasts Error"))
+    }
+
+    const onClickStopBroadcasts = () => {
+        stopBroadcasts(selectedZones)
+            .then((res) => alert(res))
+            .catch(() => alert("Broadcasts Stop Error"))
+    }
+
     const applyPreset = (preset: Preset) => {
         setPreset(preset)
     }
@@ -80,8 +98,14 @@ const MainTTS = () => {
                         className="bg-red-500 text-white py-2 px-4 rounded"
                         onClick={onClickEmergency}
                     >소방 버튼</button>
-                    <button className="bg-green-500 text-white py-2 px-4 rounded">시작</button>
-                    <button className="bg-red-500 text-white py-2 px-4 rounded">종료</button>
+                    <button
+                        className="bg-green-500 text-white py-2 px-4 rounded"
+                        onClick={onClickBroadcasts}
+                    >시작</button>
+                    <button
+                        className="bg-red-500 text-white py-2 px-4 rounded"
+                        onClick={onClickStopBroadcasts}
+                    >종료</button>
                 </div>
             </div>
             <div className="grid grid-cols-3 gap-4">
