@@ -2,8 +2,8 @@ import axios from "axios";
 import {Preset} from "./Models";
 
 // FIXME local  배포 확인
-const hostUrl = '/api';
-// const hostUrl = 'https://my-backend-production-72f8.up.railway.app';
+// const hostUrl = '/api';
+const hostUrl = 'https://my-backend-production-72f8.up.railway.app';
 
 const genLocalAudioUrl = (audioUrl: string) => {
     return `${hostUrl}${audioUrl}`
