@@ -14,8 +14,10 @@ const TTSEditor = ({
     const [text, setText] = useState('');
 
     useEffect(() => {
-        if(!preset) return;
-        setText(preset.text)
+        if(!preset)
+            setText('')
+        else
+            setText(preset.text)
     }, [preset])
 
     const generateSpeech = () => {

@@ -35,8 +35,17 @@ const getPresetList = (): Promise<Preset[]> => {
         });
 };
 
+const removePreset = (id: number): Promise<Preset[]> => {
+    return axios
+        .delete(`${hostUrl}/preset/?id=${id}`)
+        .then((response) => {
+            return response.data.message;
+        });
+};
+
 export default {
     generateTtsFile,
     emergency,
-    getPresetList
+    getPresetList,
+    removePreset
 }

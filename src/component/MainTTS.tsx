@@ -7,7 +7,7 @@ import {Preset} from "../api/tts/Models";
 
 
 const MainTTS = () => {
-    const { emergency, getPresetList } = TTSApi
+    const { emergency, getPresetList, removePreset } = TTSApi
 
     // TTS 생성 관련 작업
     const [preset, setPreset] = useState<Preset | null>(null);
@@ -60,6 +60,17 @@ const MainTTS = () => {
         setPreset(preset)
     }
 
+    const remove = (id: number) => {
+        removePreset(id)
+            .then(() => {
+                if(!!preset && preset.id === id) {
+                    setPreset(null)
+                }
+                const res = [...presetList]
+                setPresetList(res.filter(preset=>preset.id !== id))
+            })
+    }
+
     return (
         <div className="p-4 bg-gray-100 min-h-screen">
             <div className="mt-4 flex justify-between mb-4">
@@ -98,6 +109,7 @@ const MainTTS = () => {
                     selectedPreset={preset}
                     presetList={presetList}
                     applyPreset={applyPreset}
+                    removePreset={remove}
                 />
             </div>
         </div>

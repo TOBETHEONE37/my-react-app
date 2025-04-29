@@ -4,12 +4,14 @@ interface Props {
     selectedPreset: Preset | null;
     presetList: Preset[];
     applyPreset: (preset: Preset) => void;
+    removePreset: (id: number) => void;
 }
 
 const TTSPreset = ({
     selectedPreset,
     presetList,
-    applyPreset
+    applyPreset,
+    removePreset
                    }: Props) => {
     return (
         <div className="bg-gray-200 rounded-xl p-4 shadow">
@@ -36,6 +38,12 @@ const TTSPreset = ({
                                         onClick={() => applyPreset(preset)}
                                     >
                                         적용
+                                    </button>
+                                    <button
+                                        className={" text-white py-1 px-3 rounded transition bg-red-500 hover:bg-red-600 ml-1" }
+                                        onClick={() => removePreset(preset.id)}
+                                    >
+                                        X
                                     </button>
                                 </div>
                             </>
