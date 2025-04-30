@@ -50,7 +50,7 @@ const removePreset = (id: number): Promise<Preset[]> => {
 };
 const broadcastsHealthCheck = (): Promise<boolean> => {
     return axios
-        .get(`${hostUrl}/broadcasts/health-check`)
+        .get(`${hostUrl}/broadcasts/health-check/`)
         .then((response) => {
             return response.data;
         });
