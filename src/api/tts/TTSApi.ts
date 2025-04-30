@@ -48,6 +48,13 @@ const removePreset = (id: number): Promise<Preset[]> => {
             return response.data.message;
         });
 };
+const broadcastsHealthCheck = (): Promise<boolean> => {
+    return axios
+        .get(`${hostUrl}/broadcasts/health-check`)
+        .then((response) => {
+            return response.data;
+        });
+};
 
 export default {
     generateTtsFile,
@@ -55,5 +62,6 @@ export default {
     broadcasts,
     stopBroadcasts,
     getPresetList,
-    removePreset
+    removePreset,
+    broadcastsHealthCheck
 }

@@ -1,6 +1,6 @@
 import TTSEditor from "./tts/TTSEditor";
 import ZoneSelector from "./zone/ZoneSelector";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import TTSApi from "../api/tts/TTSApi";
 import TTSPreset from "./tts/TTSPreset";
 import {Preset} from "../api/tts/Models";
@@ -13,6 +13,7 @@ const MainTTS = () => {
         stopBroadcasts,
         getPresetList,
         removePreset,
+        broadcastsHealthCheck
     } = TTSApi
 
     // TTS 생성 관련 작업
@@ -22,6 +23,8 @@ const MainTTS = () => {
     const [selectedZones, setSelectedZones] = useState<number[]>([]);
     // 프리셋 관련 작업
     const [presetList, setPresetList] = useState<Preset[]>([]);
+    // 방송 상태 true(방송중) or false(대기중)
+    const [isBroadcasts, setIsBroadcasts] = useState(false);
 
     useEffect(() => {
         // 최신 preset 가져오는 작업
@@ -31,6 +34,20 @@ const MainTTS = () => {
             .then(setPresetList)
             .catch(() => alert("Preset Api Error"))
     }, [flag])
+
+    useEffect(() => {
+        broadcastsHealthCheck
+    }, []);
+
+    const fetchHealthCheck = () => {
+        broadcastsHealthCheck().then(setIsBroadcasts)
+    }
+
+    useEffect(() => {
+        // 처음 실행 + 1초마다 polling
+        const intervalId = setInterval(fetchHealthCheck, 1000);
+        return () => clearInterval(intervalId); // cleanup on unmount
+    }, []);
 
     const generatePreset = (preset:Preset) => {
         setFlag(res => !res)
@@ -58,19 +75,25 @@ const MainTTS = () => {
 
     const onClickEmergency = () => {
         emergency()
-            .then((res) => alert(`Emergency ${res}`))
+            .then((res) => {
+                setIsBroadcasts(true)
+                alert(`Emergency ${res}`)
+            })
             .catch(() => alert("Emergency Error"))
     }
 
     const onClickBroadcasts = () => {
         broadcasts(selectedZones, preset)
-            .then((res) => alert(res))
+            .then((res) => {
+                setIsBroadcasts(true)
+                console.log(res)
+            })
             .catch(() => alert("Broadcasts Error"))
     }
 
     const onClickStopBroadcasts = () => {
         stopBroadcasts(selectedZones)
-            .then((res) => alert(res))
+            .then((res) => console.log(res))
             .catch(() => alert("Broadcasts Stop Error"))
     }
 
@@ -117,8 +140,12 @@ const MainTTS = () => {
                 {/* 방송 상태 영역 */}
                 <div className="bg-gray-200 rounded-xl p-4 shadow flex items-center justify-center">
                     <div className="text-center">
-                        <div className="text-3xl font-bold">BGM</div>
-                        <div className="text-sm">방송 상태</div>
+                        <div className={`text-3xl font-bold ${isBroadcasts ? 'text-green-500 animate-pulse' : 'text-black'}`}>
+                            BGM
+                        </div>
+                        <div className={`text-sm ${isBroadcasts ? 'text-green-500' : 'text-black'}`}>
+                            {isBroadcasts ? '방송 중' : '방송 준비중'}
+                        </div>
                     </div>
                 </div>
                 <ZoneSelector
