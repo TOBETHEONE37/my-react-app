@@ -2,19 +2,14 @@ import axios from "axios";
 import {Preset} from "./Models";
 
 // FIXME local  배포 확인
-// const hostUrl = '/api';
-const hostUrl = 'https://my-backend-production-72f8.up.railway.app';
-
-const genLocalAudioUrl = (audioUrl: string) => {
-    return `${hostUrl}${audioUrl}`
-}
+// @ts-ignore
+const hostUrl = import.meta.env.VITE_AUDIO_HOST;
 
 const generateTtsFile = (text: string): Promise<Preset> => {
     return axios
         .post(`${hostUrl}/tts/`, { text })
         .then((response) => {
             const preset: Preset = response.data;
-            preset.audioUrl = genLocalAudioUrl(preset.audioUrl);
             return preset;
         });
 };
@@ -42,7 +37,6 @@ const getPresetList = (): Promise<Preset[]> => {
         .get(`${hostUrl}/preset/`)
         .then((response) => {
             const res: Preset[] = response.data;
-            res.forEach(preset => preset.audioUrl = genLocalAudioUrl(preset.audioUrl))
             return res;
         });
 };

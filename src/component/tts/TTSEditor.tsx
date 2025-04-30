@@ -2,6 +2,10 @@ import {useEffect, useState} from "react";
 import TTSApi from "../../api/tts/TTSApi";
 import {Preset} from "../../api/tts/Models";
 
+
+// @ts-ignore
+const hostUrl = import.meta.env.VITE_AUDIO_HOST;
+
 interface Props {
     preset: Preset | null;
     generatePreset: (audioUrl: Preset) => void;
@@ -43,7 +47,7 @@ const TTSEditor = ({
                 TTS 생성하기
             </button>
             {!!preset && (
-                <audio controls src={preset.audioUrl} className="mt-2 w-full" />
+                <audio controls src={`${hostUrl}${preset.audioUrl}`} className="mt-2 w-full" />
             )}
         </div>
     )
