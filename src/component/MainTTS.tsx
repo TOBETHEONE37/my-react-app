@@ -35,23 +35,16 @@ const MainTTS = () => {
             .catch(() => alert("Preset Api Error"))
     }, [flag])
 
-    const isUnmounted = useRef(false);
-
     const fetchHealthCheck = () => {
         broadcastsHealthCheck()
             .then(res => !res && setIsBroadcasts('Ready'))
             .catch(() => alert("Health Check Error"))
-        if(!isUnmounted.current)
-            setTimeout(fetchHealthCheck, 1000)
     }
 
     useEffect(() => {
-        isUnmounted.current = false
         // 처음 실행 + 1초마다 polling
-        fetchHealthCheck()
-        return () => {
-            isUnmounted.current = true
-        }
+        const intervalId = setInterval(fetchHealthCheck, 1000);
+        return () => clearInterval(intervalId); // cleanup on unmount
     }, []);
 
     const generatePreset = (preset:Preset) => {
