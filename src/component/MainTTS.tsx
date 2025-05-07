@@ -65,7 +65,7 @@ const MainTTS = () => {
     };
 
     const addAllZone = (zoneIds: number[]) => {
-        let res = [];
+        let res: number[] = [];
         if(zoneIds.length !== selectedZones.length) {
             res = [...zoneIds]
         }
