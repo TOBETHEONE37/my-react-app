@@ -1,3 +1,5 @@
+import React from "react";
+
 const zones: number[] = [...Array(16)].map((v, i) => i + 1);
 
 interface Props {
