@@ -39,7 +39,7 @@ const MainTTS = () => {
     const fetchHealthCheck = () => {
         broadcastsHealthCheck()
             .then(res => !res && setIsBroadcasts('Ready'))
-            .catch(() => alert("Health Check Error"))
+            .catch(() => console.log("Health Check Error"))
     }
 
     useEffect(() => {
