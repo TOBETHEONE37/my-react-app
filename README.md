@@ -1,6 +1,6 @@
-# React + Vite
+# TTS-WEB
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TTS 웹 애플리케이션입니다. React와 Vite를 기반으로 구축되었습니다.
 
 Currently, two official plugins are available:
 
